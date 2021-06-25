@@ -8,18 +8,22 @@ import { RouterModule } from "@angular/router";
 import { MatTabsModule } from '@angular/material/tabs'
 import {RoutingRoutingModule} from "./routing/routing.module";
 import {MatCardModule} from '@angular/material/card';
-import {HttpClient, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import { FormComponent } from './form/form.component';
+import { LoginComponent } from './login/login.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
+    LoginComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,

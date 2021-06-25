@@ -22,11 +22,8 @@ export class MenuComponent implements OnInit {
   }
 
   getRouterUrl(tabLabel: string): string{
-    if(tabLabel == "View Properties"){
-      return "thread";
-    }
-    else if (tabLabel == "Add Property"){
-      return "propertyForm";
+    if(tabLabel == "Parse"){
+      return "parse";
     }
     else if(tabLabel == "Login"){
       return "login";
@@ -39,7 +36,7 @@ export class MenuComponent implements OnInit {
       console.log(notLoggedIn, " is the console not logged in - should be true to show menu login");
       this.notLoggedIn = notLoggedIn;
     });
-    this.router.navigate(["thread"]);
+    this.router.navigate(["/parse"]);
   }
 
 

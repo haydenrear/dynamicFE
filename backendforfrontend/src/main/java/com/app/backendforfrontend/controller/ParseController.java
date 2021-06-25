@@ -4,6 +4,8 @@ import com.app.backendforfrontend.model.RequestClass;
 import com.app.backendforfrontend.parsing.Parser;
 import com.***REMOVED***.dynamicparse.parse.DynamicParsingException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,11 @@ public class ParseController {
     var r = new RequestClass();
     r.setRequest(parser.parse(toParse).get());
     return Mono.just(ResponseEntity.ok(r));
+  }
+
+  @PostMapping("/isLoggedIn")
+  public Mono<Boolean> isNotLoggedIn(@AuthenticationPrincipal AuthenticatedPrincipal principal) throws DynamicParsingException, IOException {
+    return Mono.just(principal == null);
   }
 
 }
