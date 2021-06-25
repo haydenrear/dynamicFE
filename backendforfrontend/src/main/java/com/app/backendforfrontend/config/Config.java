@@ -1,10 +1,10 @@
 package com.app.backendforfrontend.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.Printer;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -13,21 +13,13 @@ import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrations;
 import org.springframework.security.oauth2.client.registration.InMemoryReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.Properties;
 
 @Configuration
@@ -44,16 +36,15 @@ public class Config {
   private String mailUsername;
   @Value("${app.javamail.password}")
   private String mailPassword;
-  @Value("${spring.security.oauth2.client.provider.keycloak.issuer-uri}")
-  String keycloakIssuerUri;
-  @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
-  String keycloakJwt;
-  @Value("${spring.security.oauth2.client.provider.keycloak.token-uri}")
-  String tokenUri;
 
   @Bean
   ReactiveClientRegistrationRepository registrationRepository() {
-    return new InMemoryReactiveClientRegistrationRepository(clientRegistrationKeycloak(), clientRegistrationGoogle());
+    return new InMemoryReactiveClientRegistrationRepository(clientRegistrationGoogle());
+  }
+
+  @Bean
+  public ObjectMapper om(){
+    return new ObjectMapper();
   }
 
   @Bean
@@ -66,29 +57,12 @@ public class Config {
   }
 
   @Bean
-  ClientRegistration clientRegistrationKeycloak() {
-    return ClientRegistration.withRegistrationId("keycloak")
-      .clientId("backendforfrontend")
-      .clientSecret("a39e0e41-1fd1-4af4-93e2-cf3f682527e5")
-      .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-      .jwkSetUri(keycloakJwt)
-      .issuerUri(keycloakIssuerUri)
-      .tokenUri(tokenUri)
-      .build();
-  }
-
-  @Bean
   SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
     http.oauth2Client().and().csrf().disable()
       .authorizeExchange(authorize -> authorize
-        .pathMatchers(HttpMethod.GET, "/threadPost/**").authenticated()
-        .pathMatchers(HttpMethod.GET, "/login/**").authenticated()
-        .pathMatchers(HttpMethod.GET, "/filterBy/**").permitAll()
-        .pathMatchers(HttpMethod.GET, "/**").permitAll()
-        .pathMatchers(HttpMethod.POST, "/newProperty/**").permitAll()
-        .pathMatchers(HttpMethod.POST, "/getPhotos/**").permitAll()
-        .pathMatchers(HttpMethod.POST, "/uploadPhoto/**").permitAll()
-        .pathMatchers(HttpMethod.POST, "/newPost/**").permitAll()
+        .pathMatchers(HttpMethod.GET, "/**").authenticated()
+        .pathMatchers(HttpMethod.POST, "/parseJson/**").authenticated()
+        .pathMatchers(HttpMethod.POST, "/parseJsonRequest/**").permitAll()
       ).oauth2Login()
       .clientRegistrationRepository(registrationRepository())
       .and().oauth2ResourceServer().jwt();
@@ -119,15 +93,6 @@ public class Config {
     authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
     return authorizedClientManager;
-  }
-
-  @Bean
-  public WebClient webClient(ReactiveOAuth2AuthorizedClientManager authorizedClientManager, WebClient.Builder builder) {
-    ServerOAuth2AuthorizedClientExchangeFilterFunction oauth = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-    return builder.filter(oauth)
-      .codecs(configurer -> {
-        configurer.defaultCodecs().maxInMemorySize(1024 * 1024 * 50);
-      }).build();
   }
 
   @Bean
