@@ -17,6 +17,9 @@ import {MatButtonModule} from "@angular/material/button";
 import { FormComponent } from './form/form.component';
 import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
+import { PostComponent } from './post/post.component';
+import { AboutComponent } from './about/about.component';
+import { BlogComponent } from './blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { MenuComponent } from './menu/menu.component';
     FormComponent,
     LoginComponent,
     MenuComponent,
+    PostComponent,
+    AboutComponent,
+    BlogComponent,
   ],
   imports: [
     BrowserModule,

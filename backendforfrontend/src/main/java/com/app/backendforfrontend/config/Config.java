@@ -1,9 +1,15 @@
 package com.app.backendforfrontend.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.reactivestreams.client.MongoClients;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
 import org.springframework.format.Printer;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,7 +30,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebFluxSecurity
-public class Config {
+public class Config extends AbstractReactiveMongoConfiguration {
 
   @Value("${google.auth.cert.enpoint}")
   String cert;
@@ -40,6 +46,25 @@ public class Config {
   @Bean
   ReactiveClientRegistrationRepository registrationRepository() {
     return new InMemoryReactiveClientRegistrationRepository(clientRegistrationGoogle());
+  }
+
+  @NotNull
+  @Override
+  public MongoClient reactiveMongoClient(){
+      ConnectionString connString = new ConnectionString(
+        "***REMOVED***"
+      );
+    MongoClientSettings settings = MongoClientSettings.builder()
+          .applyConnectionString(connString)
+          .retryWrites(true)
+          .build();
+      MongoClient client = MongoClients.create(settings);
+      return client;
+  }
+
+  @Override
+  protected String getDatabaseName() {
+    return "dynamic";
   }
 
   @Bean
