@@ -3,6 +3,7 @@ package com.app.backendforfrontend;
 import com.app.backendforfrontend.controller.ParseController;
 import com.app.backendforfrontend.model.RequestClass;
 import com.app.backendforfrontend.parsing.Parser;
+import com.***REMOVED***.dynamicparse.parse.DynamicParsingException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,9 +27,11 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.get;
 import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockJwt;
 import static org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockUser;
@@ -70,6 +73,11 @@ class BackendforfrontendApplicationTests {
       .consumeNextWith(System.out::println)
       .verifyComplete();
     assertThat(Objects.requireNonNull(new File("src/main/resources/dynamic/").listFiles()).length).isEqualTo(0);
+  }
+
+  @Test
+  public void testParserDoesNotThrow() {
+    assertDoesNotThrow(() -> parser.parse(testRequest));
   }
 
   @SneakyThrows

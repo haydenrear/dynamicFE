@@ -21,15 +21,13 @@ public class Parser {
 
   public Optional<String> parse(String json) throws DynamicParsingException, IOException {
 
-    String directoryTo = UUID.randomUUID().toString().replace("/", "");
-    String directory = "src/main/resources/dynamic/"+directoryTo;
+    String directory = "src/main/resources/dynamic/";
     String fileName = UUID.randomUUID().toString();
-
 
     var toReturn = dynamicParseJson.dynamicParse(json, fileName, Optional.empty(), Optional.of(directory))
       .map(clzz -> dynamicParseJson.decompile(clzz.clzz().getName()));
 
-    File file = new File(directory+".class");
+    File file = new File(directory+fileName+".class");
     file.delete();
 
     return toReturn;
