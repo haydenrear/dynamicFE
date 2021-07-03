@@ -1,6 +1,8 @@
 package com.app.backendforfrontend.parsing;
 
 import com.app.backendforfrontend.model.AppEmailMessage;
+import com.app.backendforfrontend.repo.PostRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;

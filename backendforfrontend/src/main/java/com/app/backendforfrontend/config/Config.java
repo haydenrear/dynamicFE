@@ -8,9 +8,9 @@ import com.mongodb.reactivestreams.client.MongoClients;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
-import org.springframework.format.Printer;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -52,7 +52,7 @@ public class Config extends AbstractReactiveMongoConfiguration {
   @Override
   public MongoClient reactiveMongoClient(){
       ConnectionString connString = new ConnectionString(
-        "***REMOVED***"
+        "mongodb+srv://dynamic:A4lVLMBEoTFi60hY@alpaca.olrez.mongodb.net/app?retryWrites=true&w=majority"
       );
     MongoClientSettings settings = MongoClientSettings.builder()
           .applyConnectionString(connString)
@@ -77,7 +77,7 @@ public class Config extends AbstractReactiveMongoConfiguration {
     return CommonOAuth2Provider.GOOGLE
       .getBuilder("google")
       .clientId("684390368964-6nfsrd7fi33ff4ac9uu686f1k3ve3rsl.apps.googleusercontent.com")
-      .clientSecret("***REMOVED***")
+      .clientSecret("eqy04nf_4etvdLID-hHkM47c")
       .build();
   }
 
@@ -86,8 +86,7 @@ public class Config extends AbstractReactiveMongoConfiguration {
     http.oauth2Client().and().csrf().disable()
       .authorizeExchange(authorize -> authorize
         .pathMatchers(HttpMethod.GET, "/**").authenticated()
-        .pathMatchers(HttpMethod.POST, "/parseJson/**").authenticated()
-        .pathMatchers(HttpMethod.POST, "/parseJsonRequest/**").permitAll()
+        .pathMatchers(HttpMethod.POST, "/parseJsonRequest/**").authenticated()
       ).oauth2Login()
       .clientRegistrationRepository(registrationRepository())
       .and().oauth2ResourceServer().jwt();

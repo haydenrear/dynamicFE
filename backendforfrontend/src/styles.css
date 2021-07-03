@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+
 html {
   background-color: grey;
 }
@@ -12,6 +13,7 @@ body {
   padding: 40px;
   margin: auto;
   max-width: 1048px;
+  min-height: 100vh;
 }
 
 app-root {
@@ -20,6 +22,7 @@ app-root {
   padding: 40px;
   margin: auto;
   max-width: 1048px;
+  height: 100%;
 }
 
 .centered {

@@ -8,7 +8,7 @@
         <version>2.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.***REMOVED***</groupId>
+    <groupId>com.hayden</groupId>
     <artifactId>dynamic-parse-package</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>parent</name>

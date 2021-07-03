@@ -1,7 +1,7 @@
 package com.app.backendforfrontend.parsing;
 
-import com.***REMOVED***.dynamicparse.parse.DynamicParseJson;
-import com.***REMOVED***.dynamicparse.parse.DynamicParsingException;
+import com.hayden.dynamicparse.parse.DynamicParseJson;
+import com.hayden.dynamicparse.parse.DynamicParsingException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 

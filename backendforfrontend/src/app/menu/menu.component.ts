@@ -28,6 +28,12 @@ export class MenuComponent implements OnInit {
     else if(tabLabel == "Login"){
       return "login";
     }
+    else if(tabLabel == "Blog"){
+      return "blog";
+    }
+    else if(tabLabel == "About"){
+      return "about";
+    }
   }
 
   ngOnInit(): void{

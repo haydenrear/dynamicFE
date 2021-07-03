@@ -79,8 +79,8 @@ services:
 #  # container will use these variables
 #  # to start the container with these define variables.
 #    environment:
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: ***REMOVED***
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: ***REMOVED***
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: hayden
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: Goldmine423
 #  # Mount init.sql file to automatically run
 #  # and create tables for us.
 #  # everything in docker-entrypoint-initdb.d folder
